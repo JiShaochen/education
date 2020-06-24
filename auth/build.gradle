@@ -1,0 +1,48 @@
+plugins {
+	id 'org.springframework.boot' version '2.2.7.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id 'java'
+}
+group = 'com.education'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+repositories {
+	mavenCentral()
+}
+ext {
+	set('springCloudVersion', "Hoxton.SR4")
+	set('swaggerVersion', "2.9.2")
+	set('druidVersion', "1.1.22")
+	set('mybatisVersion', "2.1.2")
+}
+dependencies {
+	//工具类
+//	compile project(':common')
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+	implementation 'org.springframework.cloud:spring-cloud-starter-stream-rabbit'
+	implementation ('org.springframework.boot:spring-boot-starter-web')
+	implementation ("io.springfox:springfox-swagger-ui:${swaggerVersion}")
+	implementation ("io.springfox:springfox-swagger2:${swaggerVersion}")
+	implementation ("io.springfox:springfox-staticdocs:2.6.1")
+	//MySQL
+	implementation("mysql:mysql-connector-java")
+	implementation("com.alibaba:druid:${druidVersion}")
+	implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:${mybatisVersion}")
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}
